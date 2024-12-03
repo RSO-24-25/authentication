@@ -1,3 +1,5 @@
 myvenv
 src/auth.py
 auth.db
+.env
+data
