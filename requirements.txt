@@ -1,9 +1,6 @@
-bcrypt
-cryptography
 fastapi
-python-jose
-python-multipart
+pydantic
+pydantic-settings
+python-keycloak
 python-dotenv
-SQLAlchemy
 uvicorn
-passlib

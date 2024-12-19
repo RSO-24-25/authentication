@@ -3,8 +3,31 @@ services:
     build: .
     ports:
       - "8000:8000"
-    volumes:
-      - .:/app
-      - ./data:/data
+    networks:
+      - backend
     environment:
-      - SQLALCHEMY_DATABASE_URL=sqlite:///./data/auth.db
+      - KEYCLOAK_SERVER_URL=http://keycloak:8080/auth  # Using keycloak as the hostname within the same Docker network
+      - KEYCLOAK_REALM=myrealm
+      - KEYCLOAK_CLIENT_ID=myclient
+      - KEYCLOAK_CLIENT_SECRET=myclientsecret
+    depends_on:
+      - keycloak
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=change_me
+      - KC_HTTP_PORT=8080
+      - KEYCLOAK_IMPORT=/opt/keycloak/data/import/myrealm.json
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    volumes:
+      - ./keycloak-realm-config:/opt/keycloak/data/import  # Optional, if you want to import a realm
+    command: ["start-dev", "--import-realm"]
+
+networks:
+  backend:
+    driver: bridge
