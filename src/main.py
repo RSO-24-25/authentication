@@ -63,6 +63,9 @@ class UserCreate(BaseModel):
     username: str
     password: str
 
+class User(BaseModel):
+    username: str
+    password: str
 
 @app.post("/register")
 def register(user: UserCreate):
@@ -83,15 +86,15 @@ def register(user: UserCreate):
         raise HTTPException(status_code=400, detail=f"Registration failed: {str(e)}")
 
 
-@app.post("/token")
-def login(form_data: OAuth2PasswordBearer = Depends()):
+@app.post("/login")
+def login(user: User):
     """
     Authenticate a user and retrieve an access token.
     """
     try:
         token_response = keycloak_openid.token(
-            username=form_data.username,
-            password=form_data.password,
+            username=user.username,
+            password=user.password,
             grant_type="password",
         )
         return {
