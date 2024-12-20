@@ -1,67 +1,55 @@
 {
-    "realm": "myrealm",
-    "enabled": true,
-    "clients": [
-      {
-        "clientId": "myclient",
-        "enabled": true,
-        "clientAuthenticatorType": "client-secret",
-        "secret": "myclientsecret",
-        "publicClient": false,
-        "serviceAccountsEnabled": true,
-        "protocol": "openid-connect",
-        "directAccessGrantsEnabled": true,
-        "attributes": {
-          "access.token.lifespan": "3600",
-          "refresh.token.lifespan": "3600"
-        }
+  "realm": "myrealm",
+  "enabled": true,
+  "registrationAllowed": true,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": false,
+  "directGrantFlow": "direct grant",
+  "defaultRoles": ["user"],
+  "clients": [
+    {
+      "clientId": "myclient",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "myclientsecret",
+      "publicClient": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": true,
+      "attributes": {
+        "access.token.lifespan": "3600",
+        "refresh.token.lifespan": "3600"
       }
-    ],
-    "users": [
-      {
-        "username": "admin",
-        "enabled": true,
-        "emailVerified": true,
-        "firstName": "Admin",
-        "lastName": "User",
-        "credentials": [
-          {
-            "type": "password",
-            "value": "admin-password"
-          }
-        ],
-        "realmRoles": [
-          "admin"
-        ]
-      },
-      {
-        "username": "user",
-        "enabled": true,
-        "emailVerified": true,
-        "firstName": "Regular",
-        "lastName": "User",
-        "credentials": [
-          {
-            "type": "password",
-            "value": "user-password"
-          }
-        ],
-        "realmRoles": [
-          "user"
-        ]
-      }
-    ],
-    "roles": {
-      "realm": [
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "User",
+      "credentials": [
         {
-          "name": "admin",
-          "description": "Administrator role"
-        },
-        {
-          "name": "user",
-          "description": "User role"
+          "type": "password",
+          "value": "admin-password"
         }
+      ],
+      "realmRoles": [
+        "admin"
       ]
     }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "Administrator role"
+      },
+      {
+        "name": "user",
+        "description": "Default user role"
+      }
+    ]
   }
-  
+}

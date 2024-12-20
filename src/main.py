@@ -60,8 +60,12 @@ app.add_middleware(
 )
 
 class UserCreate(BaseModel):
+    email: str
     username: str
+    firstName: str
+    lastName: str
     password: str
+
 
 class User(BaseModel):
     username: str
@@ -75,8 +79,11 @@ def register(user: UserCreate):
     try:
         # Create user via Keycloak Admin API
         user_data = {
+            "email": user.email,
             "username": user.username,
             "enabled": True,
+            "firstName": user.firstName,
+            "lastName": user.lastName,
             "credentials": [{"value": user.password, "type": "password"}],
             "realmRoles": ["user"],  # Assign a role if needed
         }
