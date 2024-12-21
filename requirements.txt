@@ -4,3 +4,4 @@ pydantic-settings
 python-keycloak
 python-dotenv
 uvicorn
+python-multipart

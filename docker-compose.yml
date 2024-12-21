@@ -20,6 +20,11 @@ services:
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin-password
       - KC_HTTP_PORT=8080
       - KEYCLOAK_IMPORT=/opt/keycloak/data/import/myrealm.json
+      - KC_DB=mssql
+      - KC_DB_URL=jdbc:sqlserver://rsosqlserver.database.windows.net:1433;databaseName=auth_db
+      - KC_DB_USERNAME=musicn
+      - KC_DB_PASSWORD=nekiPogacarneki123
+      - KC_DB_SCHEMA=dbo
     ports:
       - "8080:8080"
     networks:

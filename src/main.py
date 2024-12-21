@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 from keycloak import KeycloakOpenID, KeycloakAdmin
+from fastapi import Form
 
 
 class Settings(BaseSettings):
@@ -71,6 +72,9 @@ class User(BaseModel):
     username: str
     password: str
 
+class RefreshToken(BaseModel):
+    refresh_token: str
+
 @app.post("/register")
 def register(user: UserCreate):
     """
@@ -93,15 +97,15 @@ def register(user: UserCreate):
         raise HTTPException(status_code=400, detail=f"Registration failed: {str(e)}")
 
 
-@app.post("/login")
-def login(user: User):
+@app.post("/token")
+def login(username: str = Form(...), password: str = Form(...)):
     """
     Authenticate a user and retrieve an access token.
     """
     try:
         token_response = keycloak_openid.token(
-            username=user.username,
-            password=user.password,
+            username=username,
+            password=password,
             grant_type="password",
         )
         return {
@@ -144,12 +148,12 @@ def user_info(token: str = Depends(oauth2_scheme)):
 
 
 @app.post("/logout")
-def logout(token: str = Depends(oauth2_scheme)):
+def logout(body: RefreshToken):
     """
     Logout a user by invalidating the access token.
     """
     try:
-        keycloak_openid.logout(token=token, refresh_token=None)
+        keycloak_openid.logout(refresh_token=body.refresh_token)
         return {"message": "Logout successful"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Logout failed: {str(e)}")

@@ -27,6 +27,7 @@
       "username": "admin",
       "enabled": true,
       "emailVerified": true,
+      "email": "admin@gmail.com",
       "firstName": "Admin",
       "lastName": "User",
       "credentials": [
