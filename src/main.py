@@ -1,10 +1,9 @@
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, Form, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
+from keycloak import KeycloakAdmin, KeycloakOpenID
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
-from keycloak import KeycloakOpenID, KeycloakAdmin
-from fastapi import Form
 
 
 class Settings(BaseSettings):
@@ -17,7 +16,7 @@ class Settings(BaseSettings):
     KEYCLOAK_ADMIN_PASSWORD: str
 
     class Config:
-        env_file = ".env"
+        env_file = None
 
 
 settings = Settings()
@@ -38,7 +37,7 @@ keycloak_admin = KeycloakAdmin(
     realm_name=settings.KEYCLOAK_REALM,
     client_id=settings.KEYCLOAK_CLIENT_ID,
     client_secret_key=settings.KEYCLOAK_CLIENT_SECRET,
-    verify=True  # Remove client_secret here
+    verify=True,  # Remove client_secret here
 )
 
 # OAuth2 Password Bearer Scheme
@@ -48,10 +47,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
 
 # CORS Middleware for cross-origin requests
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-]
+origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -59,6 +55,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 class UserCreate(BaseModel):
     email: str
@@ -72,8 +69,10 @@ class User(BaseModel):
     username: str
     password: str
 
+
 class RefreshToken(BaseModel):
     refresh_token: str
+
 
 @app.post("/register")
 def register(user: UserCreate):
@@ -132,7 +131,9 @@ def verify_token(token: str = Depends(oauth2_scheme)):
             raise HTTPException(status_code=401, detail="Invalid token")
         return {"message": "Token is valid", "user_info": user_info}
     except Exception as e:
-        raise HTTPException(status_code=401, detail=f"Token verification failed: {str(e)}")
+        raise HTTPException(
+            status_code=401, detail=f"Token verification failed: {str(e)}"
+        )
 
 
 @app.get("/user-info")
@@ -144,7 +145,9 @@ def user_info(token: str = Depends(oauth2_scheme)):
         user_info = keycloak_openid.userinfo(token)
         return user_info
     except Exception as e:
-        raise HTTPException(status_code=401, detail=f"Failed to fetch user info: {str(e)}")
+        raise HTTPException(
+            status_code=401, detail=f"Failed to fetch user info: {str(e)}"
+        )
 
 
 @app.post("/logout")
