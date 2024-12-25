@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-auth
+  template:
+    metadata:
+      labels:
+        app: web-auth
+    spec:
+      containers:
+      - name: web-auth
+        image: rsocontainerregistry.azurecr.io/web-auth:v1
+        ports:
+        - containerPort: 8000
+        env:
+        - name: KEYCLOAK_SERVER_URL
+          value: "http://keycloak:8080/auth"
+        - name: KEYCLOAK_REALM
+          value: "myrealm"
+        - name: KEYCLOAK_CLIENT_ID
+          value: "myclient"
+        - name: KEYCLOAK_CLIENT_SECRET
+          value: "myclientsecret"
+        - name: KEYCLOAK_ADMIN_USERNAME
+          value: "admin"
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "admin-password"
+
