@@ -1,6 +1,8 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.web-auth  # Specify the correct Dockerfile for the web service
     ports:
       - "8000:8000"
     networks:
@@ -10,11 +12,15 @@ services:
       - KEYCLOAK_REALM=myrealm
       - KEYCLOAK_CLIENT_ID=myclient
       - KEYCLOAK_CLIENT_SECRET=myclientsecret
+      - KEYCLOAK_ADMIN_USERNAME=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin-password
     depends_on:
       - keycloak
 
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.keycloak  # Specify the correct Dockerfile for the Keycloak service
     environment:
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin-password
