@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: rsocontainerregistry.azurecr.io/web-auth
+  tag: v4
+  containerPort: 8000
+
+env:
+  KEYCLOAK_SERVER_URL: "http://keycloak:8080/auth"
+  KEYCLOAK_REALM: "myrealm"
+  KEYCLOAK_CLIENT_ID: "myclient"
+  KEYCLOAK_CLIENT_SECRET: "myclientsecret"
+  KEYCLOAK_ADMIN_USERNAME: "admin"
+  KEYCLOAK_ADMIN_PASSWORD: "admin-password"

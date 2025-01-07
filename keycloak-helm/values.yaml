@@ -1,0 +1,24 @@
+keycloak:
+  replicaCount: 1
+  image:
+    repository: rsocontainerregistry.azurecr.io/keycloak
+    tag: v1
+  containerPort: 8080
+  env:
+    KC_BOOTSTRAP_ADMIN_USERNAME: "admin"
+    KC_BOOTSTRAP_ADMIN_PASSWORD: "admin-password"
+    KC_HTTP_PORT: "8080"
+    KEYCLOAK_IMPORT: "/opt/keycloak/data/import/myrealm.json"
+    KC_DB: "mssql"
+    KC_DB_URL: "jdbc:sqlserver://rsosqlserver.database.windows.net:1433;databaseName=auth_db"
+    KC_DB_USERNAME: "musicn"
+    KC_DB_PASSWORD: "nekiPogacarneki123"
+    KC_DB_SCHEMA: "dbo"
+    KEYCLOAK_FRONTEND_URL: "http://72.144.79.141/keycloak/auth/"
+    KEYCLOAK_ADMIN_URL: "http://72.144.79.141/keycloak/auth/realms/master/admin/"
+
+service:
+  name: keycloak
+  port: 8080
+  targetPort: 8080
+  type: ClusterIP

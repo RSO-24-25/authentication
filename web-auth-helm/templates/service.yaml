@@ -7,6 +7,6 @@ spec:
     app: web-auth
   ports:
   - protocol: TCP
-    port: 8000
-    targetPort: 8000
+    port: {{ .Values.image.containerPort }}
+    targetPort: {{ .Values.image.containerPort }}
   type: ClusterIP

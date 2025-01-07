@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-auth
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: web-auth
+  template:
+    metadata:
+      labels:
+        app: web-auth
+    spec:
+      containers:
+      - name: web-auth
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        ports:
+        - containerPort: {{ .Values.image.containerPort }}
+        env:
+        - name: KEYCLOAK_SERVER_URL
+          value: {{ .Values.env.KEYCLOAK_SERVER_URL }}
+        - name: KEYCLOAK_REALM
+          value: {{ .Values.env.KEYCLOAK_REALM }}
+        - name: KEYCLOAK_CLIENT_ID
+          value: {{ .Values.env.KEYCLOAK_CLIENT_ID }}
+        - name: KEYCLOAK_CLIENT_SECRET
+          value: {{ .Values.env.KEYCLOAK_CLIENT_SECRET }}
+        - name: KEYCLOAK_ADMIN_USERNAME
+          value: {{ .Values.env.KEYCLOAK_ADMIN_USERNAME }}
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: {{ .Values.env.KEYCLOAK_ADMIN_PASSWORD }}

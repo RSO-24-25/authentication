@@ -43,7 +43,7 @@ keycloak_admin = KeycloakAdmin(
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # App Configuration
-app = FastAPI()
+app = FastAPI(root_path="/web-auth")
 
 # CORS Middleware for cross-origin requests
 origins = ["*"]
