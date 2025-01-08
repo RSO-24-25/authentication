@@ -16,6 +16,7 @@ keycloak:
     KC_DB_SCHEMA: "dbo"
     KC_HTTP_RELATIVE_PATH: "/keycloak"
     PROXY_ADDRESS_FORWARDING: "true"
+    
 
 service:
   name: keycloak

@@ -36,3 +36,5 @@ spec:
           value: "{{ .Values.keycloak.env.KC_DB_PASSWORD }}"
         - name: KC_DB_SCHEMA
           value: "{{ .Values.keycloak.env.KC_DB_SCHEMA }}"
+        - name: KC_HTTP_RELATIVE_PATH
+          value: "{{ .Values.keycloak.env.KC_HTTP_RELATIVE_PATH }}"
