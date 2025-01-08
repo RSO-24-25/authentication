@@ -6,7 +6,7 @@ image:
   containerPort: 8000
 
 env:
-  KEYCLOAK_SERVER_URL: "http://keycloak:8080/auth"
+  KEYCLOAK_SERVER_URL: "http://keycloak:8080/keycloak/"
   KEYCLOAK_REALM: "myrealm"
   KEYCLOAK_CLIENT_ID: "myclient"
   KEYCLOAK_CLIENT_SECRET: "myclientsecret"
