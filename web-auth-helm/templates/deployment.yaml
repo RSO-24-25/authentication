@@ -17,6 +17,18 @@ spec:
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         ports:
         - containerPort: {{ .Values.image.containerPort }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: {{ .Values.image.containerPort }}
+          initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
+          periodSeconds: {{ .Values.health.periodSeconds }}
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: {{ .Values.image.containerPort }}
+          initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
+          periodSeconds: {{ .Values.health.periodSeconds }}
         env:
         - name: KEYCLOAK_SERVER_URL
           value: {{ .Values.env.KEYCLOAK_SERVER_URL }}
