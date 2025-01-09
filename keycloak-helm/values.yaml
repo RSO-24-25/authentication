@@ -23,3 +23,7 @@ service:
   port: 8080
   targetPort: 8080
   type: ClusterIP
+
+health:
+  initialDelaySeconds: 20
+  periodSeconds: 120

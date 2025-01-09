@@ -159,3 +159,14 @@ def logout(body: RefreshToken):
         return {"message": "Logout successful"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Logout failed: {str(e)}")
+    
+@app.get("/healthz")
+def health_check():
+    """
+    Health check endpoint.
+    """
+    try:
+        return {"status": "healthy"}
+    except Exception as e:
+        # If the check fails, return an HTTPException
+        raise HTTPException(status_code=500, detail=f"Health check failed: {str(e)}")

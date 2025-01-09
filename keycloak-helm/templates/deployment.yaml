@@ -17,6 +17,16 @@ spec:
         image: "{{ .Values.keycloak.image.repository }}:{{ .Values.keycloak.image.tag }}"
         ports:
         - containerPort: {{ .Values.keycloak.containerPort }}
+        livenessProbe:
+          tcpSocket:
+            port: {{ .Values.keycloak.containerPort }}
+          initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
+          periodSeconds: {{ .Values.health.periodSeconds }}
+        readinessProbe:
+          tcpSocket:
+            port: {{ .Values.keycloak.containerPort }}
+          initialDelaySeconds: {{ .Values.health.initialDelaySeconds }}
+          periodSeconds: {{ .Values.health.periodSeconds }}
         env:
         - name: KC_BOOTSTRAP_ADMIN_USERNAME
           value: "{{ .Values.keycloak.env.KC_BOOTSTRAP_ADMIN_USERNAME }}"
