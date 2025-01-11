@@ -11,6 +11,9 @@ spec:
     metadata:
       labels:
         app: web-auth
+      annotations: 
+        # This annotation will change on every Helm upgrade, forcing a new rollout
+        deployment.kubernetes.io/revision: "{{ .Release.Revision }}"
     spec:
       containers:
       - name: web-auth
